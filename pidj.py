@@ -121,12 +121,12 @@ def play(id):
         os.system("mplayer %s &" % shellquotes(full_path))
 
     return redirect(url_for('index'))
-    index()
 
 # Stop playing
 @app.route('/stopme')
 def stopme():
-    os.system("sudo pkill -9 mplayer");
+    os.system("sudo pkill -9 mplayer")
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     init_db()
