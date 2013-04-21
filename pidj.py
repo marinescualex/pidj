@@ -121,7 +121,8 @@ def play(id):
         full_path = file[2] + '/' + file[1]
         os.system("mplayer %s &" % shellquotes(full_path))
 
-    return redirect("http://localhost:5000/")
+    #return redirect("http://10.10.0.47")
+    index()
 
 if __name__ == '__main__':
     init_db()
