@@ -4,7 +4,7 @@ import subprocess
 from sqlite3 import dbapi2 as sqlite3
 from flask import Flask, _app_ctx_stack, render_template, redirect, request, url_for#, session, g, , abort, flash
 
-DEBUG = True
+DEBUG = False
 SECRET_KEY = 'development key'
 DATABASE = '/tmp/pidj.db'
 
@@ -118,7 +118,9 @@ def play(id):
         sql = db.execute('select id, title, path from files where id = ?', id)
         file = sql.fetchone()
         full_path = file[2] + '/' + file[1]
-        os.system("mplayer %s &" % shellquotes(full_path))
+        db.execute('delete from votes where file_id = ?', id)
+        db.commit()
+        os.system("mplayer %s && python process_queue.py" % shellquotes(full_path))
 
     return redirect(url_for('index'))
 
