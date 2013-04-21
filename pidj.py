@@ -2,7 +2,7 @@ import os
 import re
 import subprocess
 from sqlite3 import dbapi2 as sqlite3
-from flask import Flask, _app_ctx_stack, render_template, redirect, request#, session, g, url_for, abort, flash
+from flask import Flask, _app_ctx_stack, render_template, redirect, request, url_for#, session, g, , abort, flash
 
 DEBUG = True
 SECRET_KEY = 'development key'
@@ -111,7 +111,6 @@ def play(id):
     db = get_db()
 
     if is_running("mplayer"):
-        #os.system("pkill -9 mplayer");
         ip = request.remote_addr # Get visitor ip address
         sql = db.execute('insert into votes (file_id, ip) values(?, ?)', [id, ip])
         db.commit()
@@ -121,8 +120,13 @@ def play(id):
         full_path = file[2] + '/' + file[1]
         os.system("mplayer %s &" % shellquotes(full_path))
 
-    #return redirect("http://10.10.0.47")
+    return redirect(url_for('index'))
     index()
+
+# Stop playing
+@app.route('/stopme')
+def stopme():
+    os.system("sudo pkill -9 mplayer");
 
 if __name__ == '__main__':
     init_db()
