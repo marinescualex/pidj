@@ -1,20 +1,12 @@
 {% extends "layout.html" %}
 {% block body %}
 
-<div class="span9">
-  <table class="table table-striped table-condensed">
-    {%- for item in tree.children recursive %}
-
-      {%- if item.children -%}
-        {{ loop(item.children) }}
-      {%- else %}
-
+<div class="span12">
+  <table class="table table-bordered table-striped table-condensed">
+    {%- for file in files %}
       <tr>
-        <td><a href="/play/{{ item.name }}">{{ item.name }}</a></td>
+        <td><a href="/play/{{ file.id }}">{{ file.title|safe }}</a></td>
       </tr>
-
-      {%- endif %}
-
     {%- endfor %}
   </table>
 </div>
